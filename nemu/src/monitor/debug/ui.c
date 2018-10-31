@@ -63,7 +63,7 @@ static int cmd_info(char *args) {
   }
   else if (*arg == 'r') {
     for (int i=0; i < 8; i ++){
-      printf("%15s 0x%x %d\n", reg_name(i, 4), reg_l(i), reg_l(i));
+      printf("%-15s 0x%x %d\n", reg_name(i, 4), reg_l(i), reg_l(i));
     }
   }
   else if (*arg == 'w') {
