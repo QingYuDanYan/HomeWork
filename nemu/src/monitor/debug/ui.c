@@ -58,7 +58,10 @@ static struct {
 static int cmd_info(char *args) {
   char *arg = strtok(NULL, " ");
   
-  if(*arg == 'r') {
+  if (arg == NULL) {
+    printf("print registers and watchpoints\n");
+  }
+  else if (*arg == 'r') {
     printf("test\n");
   }
   else if (*arg == 'w') {
