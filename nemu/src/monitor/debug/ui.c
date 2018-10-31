@@ -60,7 +60,8 @@ static int cmd_si(char *args) {
     cpu_exec(1);
   }
   else {
-    printf("arg: %s\n", arg);
+    uint64_t step = atol(arg);
+    cpu_exec(step);
   }
 
   return 0;
