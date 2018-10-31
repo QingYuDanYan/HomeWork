@@ -62,7 +62,9 @@ static int cmd_info(char *args) {
     printf("print registers and watchpoints\n");
   }
   else if (*arg == 'r') {
-    printf("test\n");
+    for (int i=0; i < 8; i ++){
+      printf("%15s %d %d\n", reg_name(i, 4), reg_l(i), reg_l(i));
+    }
   }
   else if (*arg == 'w') {
     printf("watch point unfinished\n");
