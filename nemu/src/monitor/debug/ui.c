@@ -36,12 +36,8 @@ static int cmd_q(char *args) {
   return -1;
 }
 
-static int cmd_si(char *args) {
-  cpu_exec(-1);
-  return 0;
-}
-
 static int cmd_help(char *args);
+static int cmd_si(char *args);
 
 static struct {
   char *name;
@@ -57,6 +53,18 @@ static struct {
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
+static int cmd_si(char *args) {
+  char *arg = strtok(NULL, " ");
+  
+  if (arg == NULL) {
+    cpu_exec(1);
+  }
+  else {
+    printf("arg: %s\n", arg);
+  }
+
+  return 0;
+}
 
 static int cmd_help(char *args) {
   /* extract the first argument */
