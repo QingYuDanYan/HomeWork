@@ -61,6 +61,17 @@ static int cmd_x(char *args) {
   char *arg1 = strtok(NULL, " ");
   char *arg2 = strtok(NULL, " ");
   char *arg3 = strtok(NULL, " ");
+
+  if (arg1 == NULL || arg3 != NULL) {
+    printf("Wrong Format\n");
+    return -1;
+  }
+  else if (arg2 == NULL) {
+    
+  }
+  else {
+
+  }
   
   printf("%s %s %s\n", arg1, arg2, arg3);
 
