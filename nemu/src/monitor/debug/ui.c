@@ -39,6 +39,7 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 static int cmd_si(char *args);
 static int cmd_info(char *args);
+static int cmd_x(char *args);
 
 static struct {
   char *name;
@@ -48,13 +49,24 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  { "si", "single step", cmd_si },
-  { "info", "display", cmd_info },
+  { "si[N]", "single step", cmd_si },
+  { "info SUBCMD", "display", cmd_info },
+  { "x N EXPR", "print memory", cmd_x },
   /* TODO: Add more commands */
 
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
+static int cmd_x(char *args) {
+  char *arg1 = strtok(NULL, " ");
+  char *arg2 = strtok(NULL, " ");
+  char *arg3 = strtok(NULL, " ");
+  
+  printf("%s %s %s\n", arg1, arg2, arg3);
+
+  return 0;
+}
+
 static int cmd_info(char *args) {
   char *arg = strtok(NULL, " ");
   
