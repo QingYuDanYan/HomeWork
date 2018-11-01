@@ -64,7 +64,6 @@ static int cmd_x(char *args) {
 
   if (arg1 == NULL || arg3 != NULL) {
     printf("Wrong Format\n");
-    return -1;
   }
   else if (arg2 == NULL) {
     
