@@ -109,7 +109,7 @@ int checkparentheses(int p, int q){
    * If that is the case, just throw away the parentheses.
    */ 
 
-  return 0;
+  return 1;
 }
 
 int op_find(int p, int q) {
