@@ -40,6 +40,7 @@ static int cmd_help(char *args);
 static int cmd_si(char *args);
 static int cmd_info(char *args);
 static int cmd_x(char *args);
+static int cmd_p(char *args);
 
 static struct {
   char *name;
@@ -52,11 +53,20 @@ static struct {
   { "si", "single step si [N]", cmd_si },
   { "cmd", "display info SUBCMD", cmd_info },
   { "x", "print memory x N EXPR", cmd_x },
+  { "p", "expr evaluate", cmd_p  },
   /* TODO: Add more commands */
 
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
+static int cmd_p(char *args) {
+  char *arg = strtok(NULL, " ");
+  bool *success = false;
+  expr(arg, success);
+
+  return 0;
+}
+
 static int cmd_x(char *args) {
   char *arg1 = strtok(NULL, " ");
   char *arg2 = strtok(NULL, " ");
