@@ -114,9 +114,8 @@ int checkparentheses(int p, int q){
 
 int op_find(int p, int q) {
   int layer = 0, max_layer = 0;
-  int layer_array[max_layer_cnt][10];
+  int layer_array[max_layer_cnt][10] = {0};
   int j0 = 0, j1 = 0, j2 = 0, j3 = 0;
-  memset(layer_array, -1, sizeof(layer_array[0][0]) * 10 * 10);
   for (int i = p; i <= q; ++i) {
     int type = tokens[i].type;
     if (type == '(') {
@@ -140,11 +139,11 @@ int op_find(int p, int q) {
   int rightmost = -1;
   if (j0 > 0) {
     for(int i = 0; i <= j0; ++i){
-      int type = tokens[i].type;
+      int type = tokens[layer_array[0][i]].type;
       int add_sub_exist = 0;
       if (type == '+' || type == '-'){
         add_sub_exist = 1;
-        rightmost = i;
+        rightmost = layer_array[0][i];
       }
       else {
         if (add_sub_exist == 0){
@@ -171,7 +170,7 @@ int op_find(int p, int q) {
   else if (j2 > 0) {
     for(int i = 0; i <= j2; ++i){
       int type = tokens[i].type;
-      int add_sub_exist = 0;
+      int add_sub_exist = 1;
       if (type == '+' || type == '-'){
         add_sub_exist = 1;
         rightmost = i;
