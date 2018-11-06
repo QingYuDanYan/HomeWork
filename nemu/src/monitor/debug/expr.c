@@ -28,7 +28,7 @@ static struct rule {
   {"\\*", '*'}, 
   {"\\-", '-'},
   {"/", '/'},
-  {"\\d+", TK_NO},      // number
+  {"[0-9]+", TK_NO},      // number
   {"==", TK_EQ}        // equal
 };
 
