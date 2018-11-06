@@ -25,11 +25,11 @@ static struct rule {
    */
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
-  {"\\*", '*'}, 
-  {"\\-", '-'},
-  {"/", '/'},
-  {"[0-9]+", TK_NO},      // number
-  {"==", TK_EQ}        // equal
+  {"\\*", '*'},         // multipy 
+  {"\\-", '-'},         // sub
+  {"/", '/'},           // divide
+  {"[0-9]+", TK_NO},    // number
+  {"==", TK_EQ}         // equal
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -154,11 +154,11 @@ int op_find(int p, int q) {
   }
   else if (j1 > 0) {
     for(int i = 0; i <= j1; ++i){
-      int type = tokens[i].type;
+      int type = tokens[layer_array[1][i]].type;
       int add_sub_exist = 0;
       if (type == '+' || type == '-'){
         add_sub_exist = 1;
-        rightmost = i;
+        rightmost = layer_array[1][i];
       }
       else {
         if (add_sub_exist == 0){
@@ -169,11 +169,11 @@ int op_find(int p, int q) {
   }
   else if (j2 > 0) {
     for(int i = 0; i <= j2; ++i){
-      int type = tokens[i].type;
+      int type = tokens[layer_array[2][i]].type;
       int add_sub_exist = 1;
       if (type == '+' || type == '-'){
         add_sub_exist = 1;
-        rightmost = i;
+        rightmost = layer_array[2][i];
       }
       else {
         if (add_sub_exist == 0){
@@ -184,11 +184,11 @@ int op_find(int p, int q) {
   }
   else if(j3 > 0) {
     for(int i = 0; i <= j3; ++i){
-      int type = tokens[i].type;
+      int type = tokens[layer_array[3][i]].type;
       int add_sub_exist = 0;
       if (type == '+' || type == '-'){
         add_sub_exist = 1;
-        rightmost = i;
+        rightmost = layer_array[3][i];
       }
       else {
         if (add_sub_exist == 0){
