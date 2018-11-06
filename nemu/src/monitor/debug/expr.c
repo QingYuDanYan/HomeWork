@@ -138,7 +138,7 @@ int op_find(int p, int q) {
 
   int rightmost = -1;
   if (j0 > 0) {
-    for(int i = 0; i <= j0; ++i){
+    for(int i = 0; i < j0; ++i){
       int type = tokens[layer_array[0][i]].type;
       int add_sub_exist = 0;
       if (type == '+' || type == '-'){
@@ -153,11 +153,11 @@ int op_find(int p, int q) {
     }
   }
   else if (j1 > 0) {
-    for(int i = 0; i <= j1; ++i){
+    for(int i = 0; i < j1; ++i){
       int type = tokens[layer_array[1][i]].type;
       int add_sub_exist = 0;
       if (type == '+' || type == '-'){
-        add_sub_exist = 1;
+        add_sub_exist = 2;
         rightmost = layer_array[1][i];
       }
       else {
@@ -168,7 +168,7 @@ int op_find(int p, int q) {
     }  
   }
   else if (j2 > 0) {
-    for(int i = 0; i <= j2; ++i){
+    for(int i = 0; i < j2; ++i){
       int type = tokens[layer_array[2][i]].type;
       int add_sub_exist = 1;
       if (type == '+' || type == '-'){
@@ -183,7 +183,7 @@ int op_find(int p, int q) {
     }
   }
   else if(j3 > 0) {
-    for(int i = 0; i <= j3; ++i){
+    for(int i = 0; i < j3; ++i){
       int type = tokens[layer_array[3][i]].type;
       int add_sub_exist = 0;
       if (type == '+' || type == '-'){
