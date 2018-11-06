@@ -90,9 +90,8 @@ static bool make_token(char *e) {
             strncpy(tokens[nr_token].str, substr_start, substr_len);
             tokens[nr_token].str[substr_len] = '\0';
             ++nr_token;
-            break;
         }
-       break; 
+        break; 
       }
     }
 
