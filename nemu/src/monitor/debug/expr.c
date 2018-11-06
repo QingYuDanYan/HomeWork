@@ -5,9 +5,11 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include <stdlib.h>
+#define max_layer_cnt 4
 
 enum {
-  TK_NOTYPE = 256, TK_EQ
+  TK_NOTYPE = 256, TK_EQ, TK_NO
 
   /* TODO: Add more token types */
 
@@ -24,7 +26,9 @@ static struct rule {
 
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
-  {"==", TK_EQ}         // equal
+  {"==", TK_EQ},        // equal
+  {"\b\\d+", TK_NO}      // number
+
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -80,10 +84,13 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          default: TODO();
-        }
-
-        break;
+          default: 
+            tokens[nr_token].type = rules[i].token_type;
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            tokens[nr_token].str[substr_len] = '\0';
+            ++nr_token;
+            break;
+        } 
       }
     }
 
@@ -96,6 +103,138 @@ static bool make_token(char *e) {
   return true;
 }
 
+int checkparentheses(int p, int q){
+  /* The expression is surrounded by a matched pair of parentheses.
+   * If that is the case, just throw away the parentheses.
+   */ 
+
+  return 0;
+}
+
+int op_find(int p, int q) {
+  int layer = 0, max_layer = 0;
+  int layer_array[max_layer_cnt][10];
+  int j0 = 0, j1 = 0, j2 = 0, j3 = 0;
+  memset(layer_array, -1, sizeof(layer_array[0][0]) * 10 * 10);
+  for (int i = p; i <= q; ++i) {
+    int type = tokens[i].type;
+    if (type == '(') {
+      ++layer;
+      ++max_layer;
+    }
+    else if (type == ')'){
+      --layer;
+    }
+    else if (type == '+' || type == '-' || type == '*' || type == '/') {
+      switch (layer) {
+        case 0: layer_array[layer][j0++] = i; break;
+        case 1: layer_array[layer][j1++] = i; break;
+        case 2: layer_array[layer][j2++] = i; break;
+        case 3: layer_array[layer][j3++] = i; break;
+        default: Assert(0, "Error\n");
+      }
+    }  
+  }
+
+  int rightmost = -1;
+  if (j0 > 0) {
+    for(int i = 0; i <= j0; ++i){
+      int type = tokens[i].type;
+      int add_sub_exist = 0;
+      if (type == '+' || type == '-'){
+        add_sub_exist = 1;
+        rightmost = i;
+      }
+      else {
+        if (add_sub_exist == 0){
+          rightmost = i;
+        }      
+      }     
+    }
+  }
+  else if (j1 > 0) {
+    for(int i = 0; i <= j1; ++i){
+      int type = tokens[i].type;
+      int add_sub_exist = 0;
+      if (type == '+' || type == '-'){
+        add_sub_exist = 1;
+        rightmost = i;
+      }
+      else {
+        if (add_sub_exist == 0){
+          rightmost = i;
+        }      
+      }
+    }  
+  }
+  else if (j2 > 0) {
+    for(int i = 0; i <= j2; ++i){
+      int type = tokens[i].type;
+      int add_sub_exist = 0;
+      if (type == '+' || type == '-'){
+        add_sub_exist = 1;
+        rightmost = i;
+      }
+      else {
+        if (add_sub_exist == 0){
+          rightmost = i;
+        }      
+      }
+    }
+  }
+  else if(j3 > 0) {
+    for(int i = 0; i <= j3; ++i){
+      int type = tokens[i].type;
+      int add_sub_exist = 0;
+      if (type == '+' || type == '-'){
+        add_sub_exist = 1;
+        rightmost = i;
+      }
+      else {
+        if (add_sub_exist == 0){
+          rightmost = i;
+        }      
+      }
+    }
+  }  
+  return rightmost;  
+}
+
+int eval(int p, int q) {
+  if (p > q) {
+    /* bad expression */
+    Assert(0, "bad expression\n");
+  }
+  else if (p == q) {
+    /* Single token.
+     * For now this token should be a number.
+     * Return the value of the number.
+     */
+    return atol(tokens[p].str); 
+  }
+  else if (checkparentheses(p, q) == 0) {
+    /* The expression is surrounded by a matched pair of parentheses.
+     * If that is the case, just throw away the parentheses
+     */
+    return eval(p + 1, q - 1);
+  }
+  else {
+    int op = op_find(p, q); /* the position of main op in the token expression */
+    long val1 = eval(p, op - 1);
+    long val2 = eval(op + 1, q);
+
+    switch (tokens[op].type) {
+      case '+': return val1 + val2;
+      case '-': return val1 - val2;
+      case '*': return val1 * val2;
+      case '/': return val1 / val2;
+      default: Assert(0, "unknown token type\n");
+    }
+  }
+
+  return 0;
+}
+
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
@@ -103,7 +242,8 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  long res = eval(0, nr_token);
+  printf("expr result is: %ld\n", res);
 
   return 0;
 }
