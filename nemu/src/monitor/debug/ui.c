@@ -62,7 +62,8 @@ static struct {
 static int cmd_p(char *args) {
   char *arg = strtok(NULL, " ");
   bool *success = false;
-  expr(arg, success);
+  int a = expr(arg, success);
+  printf("%d\n", a);
 
   return 0;
 }

@@ -134,7 +134,7 @@ int op_find(int p, int q) {
         default: Assert(0, "Error\n");
       }
     }  
-  }
+  } 
 
   int rightmost = -1;
   if (j0 > 0) {
@@ -147,7 +147,7 @@ int op_find(int p, int q) {
       }
       else {
         if (add_sub_exist == 0){
-          rightmost = i;
+          rightmost = layer_array[0][i];
         }      
       }     
     }
@@ -162,7 +162,7 @@ int op_find(int p, int q) {
       }
       else {
         if (add_sub_exist == 0){
-          rightmost = i;
+          rightmost = layer_array[1][i];
         }      
       }
     }  
@@ -177,7 +177,7 @@ int op_find(int p, int q) {
       }
       else {
         if (add_sub_exist == 0){
-          rightmost = i;
+          rightmost = layer_array[2][i];
         }      
       }
     }
@@ -192,7 +192,7 @@ int op_find(int p, int q) {
       }
       else {
         if (add_sub_exist == 0){
-          rightmost = i;
+          rightmost = layer_array[3][i];
         }      
       }
     }
