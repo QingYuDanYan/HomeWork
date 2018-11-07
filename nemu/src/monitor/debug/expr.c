@@ -183,6 +183,15 @@ int eval(int p, int q) {
       sscanf(tokens[p].str+2, "%x", &ret);
       return ret;
     }
+    if (type == TK_REG) {
+      int i = 0;
+      for (i = 0; i < 8; i++){
+        if ((strcmp(tokens[p].str + 1, regsl[i])) == 0) {
+          break;
+        }
+      }
+      return reg_l(i);
+    }
   }
   else if (checkparentheses(p, q) == 0) {
     /* The expression is surrounded by a matched pair of parentheses.
