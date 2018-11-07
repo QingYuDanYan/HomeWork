@@ -129,6 +129,7 @@ int op_find(int p, int q) {
       }
       if (type == '+' || type == '-'){
         rightmost = i;
+        add_sub_exist = true;
       }
     }
   }
