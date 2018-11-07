@@ -175,7 +175,14 @@ int eval(int p, int q) {
      * For now this token should be a number.
      * Return the value of the number.
      */
-    return atol(tokens[p].str); 
+    int type = tokens[p].type;
+    if (type == TK_NO)
+      return atol(tokens[p].str);
+    if (type == TK_HEX) {
+      uint32_t ret = 0;
+      sscanf(tokens[p].str+2, "%x", &ret);
+      return ret;
+    }
   }
   else if (checkparentheses(p, q) == 0) {
     /* The expression is surrounded by a matched pair of parentheses.
@@ -185,8 +192,8 @@ int eval(int p, int q) {
   }
   else {
     int op = op_find(p, q); /* the position of main op in the token expression */
-    long val1 = eval(p, op - 1);
-    long val2 = eval(op + 1, q);
+    uint32_t val1 = eval(p, op - 1);
+    uint32_t val2 = eval(op + 1, q);
 
     switch (tokens[op].type) {
       case '+': return val1 + val2;
