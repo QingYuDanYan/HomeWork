@@ -108,14 +108,31 @@ int checkparentheses(int p, int q){
   /* The expression is surrounded by a matched pair of parentheses.
    * If that is the case, just throw away the parentheses.
    */ 
+  int layer = 0;
+  for (int i = p; i<= q; i++) {
+    int type = tokens[i].type;
+    if (type == '(') layer++;
+    if (type == ')') layer--;
+  }
+  if (layer != 0) {
+    printf("this expr parentheses unequal\n");
+  }
 
-  return 1;
+  layer = 0;
+  for (int i=p; i<=q; i++) {
+    int type = tokens[i].type;
+    if (type == '(') layer++;
+    if (type == ')') layer--;
+    if (layer < 0) return 1;
+  }
+
+  return 0;
 }
 
 int op_find(int p, int q) {
   int layer = 0, rightmost = -1;
   bool add_sub_exist = false;
-  for (int i = p; i <= q; ++i) {
+  for (int i = p; i <= q; i++) {
     int type = tokens[i].type;
     if (type == '(') {
       ++layer;
