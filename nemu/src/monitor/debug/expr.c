@@ -157,6 +157,13 @@ int op_find(int p, int q) {
         rightmost = i;        
       }
       if (type == '+' || type == '-'){
+        if (i - 1 >= p){
+          int pre_type = tokens[i-1].type;
+          if (pre_type == '+' || pre_type == '-' || pre_type == '*' || pre_type == '/') {
+            continue;
+          }
+
+        }
         rightmost = i;
         add_sub_exist = true;
       }
@@ -177,7 +184,7 @@ int eval(int p, int q) {
      */
     int type = tokens[p].type;
     if (type == TK_NO)
-      return atol(tokens[p].str);
+      return atoi(tokens[p].str);
     if (type == TK_HEX) {
       uint32_t ret = 0;
       sscanf(tokens[p].str+2, "%x", &ret);
@@ -201,12 +208,23 @@ int eval(int p, int q) {
   }
   else {
     int op = op_find(p, q); /* the position of main op in the token expression */
-    if ( p == op && tokens[p].type == '*' ) {
-      uint32_t val2 = eval(op + 1, q);
-      return vaddr_read(val2, 4);  
+    uint32_t val1, val2;
+    if ( p == op ) {
+      val2 = eval(op + 1, q); 
+      switch(tokens[p].type) {
+        case '*':
+          return vaddr_read(val2, 4); 
+        case '+':
+          return val2;
+        case '-':
+          return -val2;
+        default:
+          Assert(0, "Unknown Typen");
+      }
     }
-    uint32_t val1 = eval(p, op - 1);
-    uint32_t val2 = eval(op + 1, q);
+
+    val1 = eval(p, op - 1);
+    val2 = eval(op + 1, q);
 
     switch (tokens[op].type) {
       case '+': return val1 + val2;
