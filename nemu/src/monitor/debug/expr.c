@@ -201,6 +201,10 @@ int eval(int p, int q) {
   }
   else {
     int op = op_find(p, q); /* the position of main op in the token expression */
+    if ( p == op && tokens[p].type == '*' ) {
+      uint32_t val2 = eval(op + 1, q);
+      return vaddr_read(val2, 4);  
+    }
     uint32_t val1 = eval(p, op - 1);
     uint32_t val2 = eval(op + 1, q);
 
