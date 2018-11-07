@@ -113,90 +113,25 @@ int checkparentheses(int p, int q){
 }
 
 int op_find(int p, int q) {
-  int layer = 0, max_layer = 0;
-  int layer_array[max_layer_cnt][10] = {0};
-  int j0 = 0, j1 = 0, j2 = 0, j3 = 0;
+  int layer = 0, rightmost = -1;
+  bool add_sub_exist = false;
   for (int i = p; i <= q; ++i) {
     int type = tokens[i].type;
     if (type == '(') {
       ++layer;
-      ++max_layer;
     }
-    else if (type == ')'){
+    if (type == ')'){
       --layer;
     }
-    else if (type == '+' || type == '-' || type == '*' || type == '/') {
-      switch (layer) {
-        case 0: layer_array[layer][j0++] = i; break;
-        case 1: layer_array[layer][j1++] = i; break;
-        case 2: layer_array[layer][j2++] = i; break;
-        case 3: layer_array[layer][j3++] = i; break;
-        default: Assert(0, "Error\n");
+    if (layer == 0)  {
+      if ( (type == '*' || type == '/') && (add_sub_exist == false) ) {
+        rightmost = i;        
       }
-    }  
-  } 
-
-  int rightmost = -1;
-  if (j0 > 0) {
-    for(int i = 0; i < j0; ++i){
-      int type = tokens[layer_array[0][i]].type;
-      int add_sub_exist = 0;
       if (type == '+' || type == '-'){
-        add_sub_exist = 1;
-        rightmost = layer_array[0][i];
-      }
-      else {
-        if (add_sub_exist == 0){
-          rightmost = layer_array[0][i];
-        }      
-      }     
-    }
-  }
-  else if (j1 > 0) {
-    for(int i = 0; i < j1; ++i){
-      int type = tokens[layer_array[1][i]].type;
-      int add_sub_exist = 0;
-      if (type == '+' || type == '-'){
-        add_sub_exist = 2;
-        rightmost = layer_array[1][i];
-      }
-      else {
-        if (add_sub_exist == 0){
-          rightmost = layer_array[1][i];
-        }      
-      }
-    }  
-  }
-  else if (j2 > 0) {
-    for(int i = 0; i < j2; ++i){
-      int type = tokens[layer_array[2][i]].type;
-      int add_sub_exist = 1;
-      if (type == '+' || type == '-'){
-        add_sub_exist = 1;
-        rightmost = layer_array[2][i];
-      }
-      else {
-        if (add_sub_exist == 0){
-          rightmost = layer_array[2][i];
-        }      
+        rightmost = i;
       }
     }
   }
-  else if(j3 > 0) {
-    for(int i = 0; i < j3; ++i){
-      int type = tokens[layer_array[3][i]].type;
-      int add_sub_exist = 0;
-      if (type == '+' || type == '-'){
-        add_sub_exist = 1;
-        rightmost = layer_array[3][i];
-      }
-      else {
-        if (add_sub_exist == 0){
-          rightmost = layer_array[3][i];
-        }      
-      }
-    }
-  }  
   return rightmost;  
 }
 
