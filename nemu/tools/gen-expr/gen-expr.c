@@ -5,9 +5,27 @@
 #include <assert.h>
 #include <string.h>
 
+static inline char gen_rand_op(){
+  switch (rand()%4) {
+    case 0: return '+';
+    case 1: return '-';
+    case 2: return '*';
+    default: return '/';
+  }
+}
+
+
 // this should be enough
 static char buf[65536];
 static inline void gen_rand_expr() {
+  switch (rand()%5) {
+    case 0: return rand();
+    case 1: return '(' + gen_rand_expr() + ')';
+    case 2: return '+' + gen_rand_expr();
+    case 3: return '-' + gen_rand_expr();
+    default: return gen_rand_expr() + gen_rand_op() + gen_rand_expr();
+  }
+
   buf[0] = '\0';
 }
 
