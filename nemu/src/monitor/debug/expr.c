@@ -9,7 +9,7 @@
 #define max_layer_cnt 4
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NO, TK_HEX, TK_REG
+  TK_NOTYPE = 256, TK_EQ, TK_NO, TK_HEX, TK_REG, TK_VAR
 
   /* TODO: Add more token types */
 
@@ -26,6 +26,7 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"0x[a-f|A-F|0-9]+", TK_HEX},  // hex
   {"\\$[a-z|A-Z]+", TK_REG},  //reg
+  {"[a-z|A-Z|_]+[a-z|A-Z|_|0-9]+", TK_VAR},
   {"\\(", '('},         // left bracket
   {")", ')'},           // right bracket
   {"\\+", '+'},         // plus
