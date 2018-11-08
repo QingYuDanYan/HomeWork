@@ -4,7 +4,7 @@
 #include <time.h>
 #include <assert.h>
 #include <string.h>
-
+#include "../../include/monitor/expr.h"
 
 // this should be enough
 static char buf[65536];
@@ -68,6 +68,9 @@ int main(int argc, char *argv[]) {
   for (i = 0; i < loop; i ++) {
     gen_rand_expr();
     bool *success;
+    expr(buf, success);
+
+    if (*success == false) continue;
 
     sprintf(code_buf, code_format, buf);
 

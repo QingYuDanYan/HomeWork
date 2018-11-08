@@ -6,7 +6,6 @@
 #include <sys/types.h>
 #include <regex.h>
 #include <stdlib.h>
-#define max_layer_cnt 4
 
 enum {
   TK_NOTYPE = 256, TK_EQ, TK_NO, TK_HEX, TK_REG, TK_VAR
@@ -232,7 +231,7 @@ int eval(int p, int q, bool *success) {
       case '+': return val1 + val2;
       case '-': return val1 - val2;
       case '*': return val1 * val2;
-      case '/': return val1 / val2;
+      case '/': if (val2 == 0) *success = false; return val1 / val2;
       default: Assert(0, "unknown token type\n");
     }
   }
