@@ -66,7 +66,7 @@ static int cmd_p(char *args) {
   }
   bool *success = false;
   uint32_t res = expr(arg, success);
-  printf("expr value: %u\n", res);
+  printf("expr value: %d\n", res);
   return 0;
 }
 
