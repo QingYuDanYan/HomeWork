@@ -174,7 +174,7 @@ int op_find(int p, int q) {
   return rightmost;  
 }
 
-int eval(int p, int q) {
+int eval(int p, int q, bool *success) {
   if (p > q) {
     /* bad expression */
     Assert(0, "bad expression\n");
@@ -206,13 +206,13 @@ int eval(int p, int q) {
     /* The expression is surrounded by a matched pair of parentheses.
      * If that is the case, just throw away the parentheses
      */
-    return eval(p + 1, q - 1);
+    return eval(p + 1, q - 1, success);
   }
   else {
     int op = op_find(p, q); /* the position of main op in the token expression */
     uint32_t val1, val2;
     if ( p == op ) {
-      val2 = eval(op + 1, q); 
+      val2 = eval(op + 1, q, success); 
       switch(tokens[p].type) {
         case '*':
           return vaddr_read(val2, 4); 
@@ -225,8 +225,8 @@ int eval(int p, int q) {
       }
     }
 
-    val1 = eval(p, op - 1);
-    val2 = eval(op + 1, q);
+    val1 = eval(p, op - 1, success);
+    val2 = eval(op + 1, q, success);
 
     switch (tokens[op].type) {
       case '+': return val1 + val2;
@@ -247,7 +247,7 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  uint32_t res = eval(0, nr_token - 1);
+  uint32_t res = eval(0, nr_token - 1, success);
 
   return res;
 }
