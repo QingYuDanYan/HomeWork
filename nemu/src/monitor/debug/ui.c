@@ -65,8 +65,8 @@ static int cmd_p(char *args) {
     printf("Wrong Format\n");
   }
   bool *success = false;
-  expr(arg, success);
-
+  uint32_t res = expr(arg, success);
+  printf("expr value: %u\n", res);
   return 0;
 }
 

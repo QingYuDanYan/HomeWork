@@ -10,7 +10,7 @@
 static char buf[65536];
 
 static inline void inline gen_num() {
-  uint32_t num = rand();
+  uint32_t num = rand() % 100;
   char buffer[10];
   if (rand() % 2 == 0){
     sprintf(buffer, "%d", num);
@@ -39,11 +39,9 @@ static inline void gen_rand_op() {
 
 static inline void gen_rand_expr() {
   
-  switch (rand()%5) {
+  switch (rand()%4) {
     case 0: gen_num(); break;
     case 1: strcat(buf, "("); gen_rand_expr(); strcat(buf, ")"); break;
-    case 2: strcat(buf, "+"); gen_rand_expr(); break;
-    case 3: strcat(buf, "-"); gen_rand_expr(); break;
     default: gen_rand_expr(); gen_rand_op(); gen_rand_expr(); break;
   }
 
@@ -69,6 +67,7 @@ int main(int argc, char *argv[]) {
   buf[0] = '\0';
   for (i = 0; i < loop; i ++) {
     gen_rand_expr();
+    bool *success;
 
     sprintf(code_buf, code_format, buf);
 

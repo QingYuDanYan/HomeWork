@@ -247,8 +247,7 @@ uint32_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  long res = eval(0, nr_token - 1);
-  printf("expr result is: %ld\n", res);
+  uint32_t res = eval(0, nr_token - 1);
 
-  return 0;
+  return res;
 }
