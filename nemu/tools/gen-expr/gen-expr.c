@@ -5,28 +5,48 @@
 #include <assert.h>
 #include <string.h>
 
-static inline char gen_rand_op(){
-  switch (rand()%4) {
-    case 0: return '+';
-    case 1: return '-';
-    case 2: return '*';
-    default: return '/';
-  }
-}
-
 
 // this should be enough
 static char buf[65536];
+
+static inline void inline gen_num() {
+  uint32_t num = rand();
+  char buffer[10];
+  if (rand() % 2 == 0){
+    sprintf(buffer, "%d", num);
+  }
+  else {
+    strcpy(buffer, "0x");
+    sprintf(buffer+2, "%x", num);
+  }
+  strcat(buf, buffer);
+}
+
+static inline void gen_rand_op() {
+  char op;
+  switch (rand() % 4) {
+    case 0: op = '+'; break;
+    case 1: op = '-'; break;
+    case 2: op = '*'; break;
+    default: op = '/'; break;
+  }
+  char buffer[2];
+  buffer[0] = op;
+  buffer[1] = '\0';
+
+  strcat(buf, buffer);
+}
+
 static inline void gen_rand_expr() {
+  
   switch (rand()%5) {
-    case 0: return rand();
-    case 1: return '(' + gen_rand_expr() + ')';
-    case 2: return '+' + gen_rand_expr();
-    case 3: return '-' + gen_rand_expr();
-    default: return gen_rand_expr() + gen_rand_op() + gen_rand_expr();
+    case 0: gen_num(); break;
+    case 1: strcat(buf, "("); gen_rand_expr(); strcat(buf, ")"); break;
+    case 2: strcat(buf, "+"); gen_rand_expr(); break;
+    case 3: strcat(buf, "-"); gen_rand_expr(); break;
+    default: gen_rand_expr(); gen_rand_op(); gen_rand_expr(); break;
   }
 
-  buf[0] = '\0';
 }
 
 static char code_buf[65536];
@@ -46,6 +66,7 @@ int main(int argc, char *argv[]) {
     sscanf(argv[1], "%d", &loop);
   }
   int i;
+  buf[0] = '\0';
   for (i = 0; i < loop; i ++) {
     gen_rand_expr();
 

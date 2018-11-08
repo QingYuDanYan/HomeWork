@@ -210,7 +210,6 @@ int eval(int p, int q) {
   }
   else {
     int op = op_find(p, q); /* the position of main op in the token expression */
-    printf("op type:%d\n", tokens[op].type);
     uint32_t val1, val2;
     if ( p == op ) {
       val2 = eval(op + 1, q); 
