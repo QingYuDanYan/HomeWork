@@ -118,29 +118,29 @@ int checkparentheses(int p, int q){
    * If that is the case, just throw away the parentheses.
    */ 
   int layer = 0;
-  bool parentheses_exist = false;
   for (int i = p; i<= q; i++) {
     int type = tokens[i].type;
-    if (type == '('){ layer++; parentheses_exist = true; }
+    if (type == '('){ layer++; }
     if (type == ')') layer--;
   }
   if (layer != 0) {
-    printf("this expr parentheses unequal\n");
+    Assert(0, "this expr parentheses unequal\n");
   }
 
-  if (parentheses_exist == false) return 1;
+  if (tokens[p].type != '(' || tokens[q].type != ')') {
+    return 1;
+  }else{
 
-  layer = 0;
-  for (int i = p+1; i <= q-1; i++) {
-    int type = tokens[i].type;
-    if (type == '(') layer++;
-    if (type == ')') layer--;
-    if (layer < 0) return 1;
+    layer = 0;
+    for (int i = p+1; i <= q-1; i++) {
+      int type = tokens[i].type;
+      if (type == '(') layer++;
+      if (type == ')') layer--;
+      if (layer < 0) return 1;
+    }
   }
 
-  if (layer != 0) return 1;
-
-  return 0;
+ return 0;
 }
 
 int op_find(int p, int q) {
