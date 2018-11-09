@@ -37,6 +37,7 @@ static inline void gen_rand_op() {
 }
 
 static inline void gen_rand_space() {
+  return;
   char buffer[10];
   int cnt = 0;
 
@@ -96,7 +97,7 @@ int main(int argc, char *argv[]) {
     int ret = system("gcc .code.c -o .expr");
     if (ret != 0) continue;
 
-    ret = system("./.expr; clear");
+    ret = system("./.expr");
     if (ret != 0) continue;
 
     fp = popen("./.expr", "r");
