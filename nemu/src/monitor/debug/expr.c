@@ -139,7 +139,7 @@ int checkparentheses(int p, int q) {
     Assert(0, "bracket imbalance\n");
   }
 
-  if (tokens[p].type != '(' || tokens[p].type != ')') {
+  if (tokens[p].type != '(' || tokens[q].type != ')') {
     return 1;
   }
   else {
