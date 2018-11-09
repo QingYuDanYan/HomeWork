@@ -62,8 +62,14 @@ static inline void gen_rand_expr() {
 static char code_buf[65536];
 static char *code_format =
 "#include <stdio.h>\n"
-"#include <math.h>\n"
+"#include <signal.h>\n"
+"#include <stdlib.h>\n"
+"void sighandler(int signum) {"
+"  exit(2);"
+"}"
+
 "int main() { "
+"  signal(SIGFPE, sighandler);"
 "  unsigned result = %s; "
 "  printf(\"%%u\", result); "
 "  return 0;"
@@ -81,14 +87,16 @@ int main(int argc, char *argv[]) {
   for (i = 0; i < loop; i ++) {
     memset(buf, '\0', sizeof(buf));
     gen_rand_expr();
-    sprintf(code_buf, code_format, buf, buf, buf);
+    sprintf(code_buf, code_format, buf);
 
     FILE *fp = fopen(".code.c", "w");
     assert(fp != NULL);
     fputs(code_buf, fp);
     fclose(fp);
-
     int ret = system("gcc .code.c -o .expr");
+    if (ret != 0) continue;
+
+    ret = system("./.expr");
     if (ret != 0) continue;
 
     fp = popen("./.expr", "r");
