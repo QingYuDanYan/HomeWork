@@ -16,7 +16,15 @@ int main(int argc, char *argv[]) {
     if (fp == NULL) Assert(0, "expr_testcase is NULL\n");
 
     while ((read = getline(&line, &len, fp)) != -1) {
-      printf("%s", line);
+      char *arg1 = strtok(line, " ");
+      char *arg2 = strtok(NULL, "");
+      bool *success = false;
+      uint32_t res = expr(arg2, success);
+      uint32_t ret = atoi(arg1);
+
+      if (res != ret) {
+        printf("%s mismatch\n", line);
+      }
     }
 
     free(line);
