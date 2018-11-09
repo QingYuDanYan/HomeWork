@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
-    fp = fopen("../tools/gen-expr/expr_testcase", "r");
+    fp = fopen("./tools/gen-expr/expr_testcase", "r");
     if (fp == NULL) Assert(0, "expr_testcase is NULL\n");
 
     while ((read = getline(&line, &len, fp)) != -1) {
