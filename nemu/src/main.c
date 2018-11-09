@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "monitor/expr.h"
+#include <readline/readline.h>
 
 int init_monitor(int, char *[]);
 void ui_mainloop(int);
@@ -23,6 +24,7 @@ int main(int argc, char *argv[]) {
       char *arg2 = strtok(NULL, "");
       bool *success = false;
       printf("arg1: %s arg2: %s\n", arg1, arg2);
+      arg2  = readline("(nemu) ");
       uint32_t res = expr(arg2, success);
       uint32_t ret = atoi(arg1);
 
