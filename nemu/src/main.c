@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
   
   int is_batch_mode = init_monitor(argc, argv);
 
-  if (argc == 2 && strcmp(argv[1], "expr_test") == 0) {
+  //if (argc == 2 && strcmp(argv[1], "expr_test") == 0) {
     printf("expr_test begin\n");
     FILE *fp;
     char *line = NULL;
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
     fclose(fp);
 
     return 0;
-  }  
+  //}  
 
   /* Initialize the monitor. */
 
