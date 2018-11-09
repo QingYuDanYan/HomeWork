@@ -36,24 +36,37 @@ static inline void gen_rand_op() {
   strcat(buf, buffer);
 }
 
+static inline void gen_rand_space() {
+  char buffer[10];
+  int cnt = 0;
+
+  for(int i = 0; i < 10; i++) {
+    if (rand() % 2 == 0) buffer[cnt++] = ' ';
+  }
+  buffer[cnt] = '\0';
+  
+  strcat(buf, buffer);
+
+}
 
 static inline void gen_rand_expr() {
   switch (rand()%5) {
     case 0: gen_num(); break;
     case 1: gen_num(); break;
     case 2: gen_num(); break;
-    case 3: strcat(buf, "("); gen_rand_expr(); strcat(buf, ")"); break;
-    default: gen_rand_expr(); gen_rand_op(); gen_rand_expr(); break;
+    case 3: strcat(buf, "("); gen_rand_space(); gen_rand_expr(); strcat(buf, ")"); break;
+    default: gen_rand_expr(); gen_rand_op(); gen_rand_space(); gen_rand_expr(); break;
   }
 }
 
 static char code_buf[65536];
 static char *code_format =
 "#include <stdio.h>\n"
+"#include <math.h>\n"
 "int main() { "
 "  unsigned result = %s; "
 "  printf(\"%%u\", result); "
-"  return 0; "
+"  return 0;"
 "}";
 
 int main(int argc, char *argv[]) {
@@ -68,7 +81,7 @@ int main(int argc, char *argv[]) {
   for (i = 0; i < loop; i ++) {
     memset(buf, '\0', sizeof(buf));
     gen_rand_expr();
-    sprintf(code_buf, code_format, buf);
+    sprintf(code_buf, code_format, buf, buf, buf);
 
     FILE *fp = fopen(".code.c", "w");
     assert(fp != NULL);
