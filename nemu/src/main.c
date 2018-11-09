@@ -18,10 +18,11 @@ int main(int argc, char *argv[]) {
     while ((read = getline(&line, &len, fp)) != -1) {
       char *pos;
       if ((pos = strchr(line, '\n')) != NULL)
-        *pos = ' ';
+        *pos = '\0';
       char *arg1 = strtok(line, " ");
       char *arg2 = strtok(NULL, "");
       bool *success = false;
+      printf("arg1: %s arg2: %s\n", arg1, arg2);
       uint32_t res = expr(arg2, success);
       uint32_t ret = atoi(arg1);
 
