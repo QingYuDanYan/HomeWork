@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NO, TK_HEX, TK_REG, TK_VAR
+  TK_NOTYPE = 256, TK_EQ, TK_NO, TK_HEX, TK_REG, TK_VAR, TK_LE, TK_GE, TK_NE, TK_AND_AND, TK_OR_OR, TK_AND, TK_OR
 
   /* TODO: Add more token types */
 
@@ -33,7 +33,16 @@ static struct rule {
   {"\\-", '-'},         // sub
   {"/", '/'},           // divide
   {"[0-9]+", TK_NO},    // number
-  {"==", TK_EQ}         // equal
+  {"==", TK_EQ},        // equal
+  {"<=", TK_LE},        // less equal
+  {">=", TK_GE},        // greater equal
+  {"!=", TK_NE},        // not equal
+  {"&&", TK_AND_AND},   // &&
+  {"||", TK_OR_OR},     // ||
+  {"&", '&'},        // &
+  {"|", '|'},         // |
+  {"<", '<'},           // <
+  {">", '>'}            // >
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -232,6 +241,16 @@ int eval(int p, int q, bool *success) {
       case '-': return val1 - val2;
       case '*': return val1 * val2;
       case '/': if (val2 == 0) *success = false; return val1 / val2;
+      case '<': return val1 < val2;
+      case '>': return val1 > val2;
+      case '&': return val1 & val2;
+      case '|': return val1 | val2;
+      case TK_EQ: return val1 == val2;
+      case TK_GE: return val1 >= val2;
+      case TK_LE: return val1 <= val2;
+      case TK_NE: return val1 != val2;
+      case TK_AND_AND: return val1 && val2;
+      case TK_OR_OR: return val1 || val2;
       default: Assert(0, "unknown token type\n");
     }
   }
