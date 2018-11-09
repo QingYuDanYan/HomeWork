@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
       char *arg2 = strtok(NULL, "");
       bool *success = false;
      // arg2  = readline("(nemu) ");      
-      printf("arg1: %s arg2: %s\n", arg1, arg2);
+     // printf("arg1: %s arg2: %s\n", arg1, arg2);
       uint32_t res = expr(arg2, success);
       uint32_t ret = atoi(arg1);
 
