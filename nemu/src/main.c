@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     while ((read = getline(&line, &len, fp)) != -1) {
       char *pos;
       if ((pos = strchr(line, '\n')) != NULL)
-        *pos = '\0';
+        *pos = ' ';
       char *arg1 = strtok(line, " ");
       char *arg2 = strtok(NULL, "");
       bool *success = false;
