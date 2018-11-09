@@ -34,6 +34,9 @@ int main(int argc, char *argv[]) {
       if (res != ret) {
         printf("%s mismatch\n", line);
       }
+      else {
+        printf("expr %s = %d\n", arg2, res);
+      }
     }
 
     free(line);
