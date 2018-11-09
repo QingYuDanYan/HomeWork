@@ -96,7 +96,7 @@ int main(int argc, char *argv[]) {
     int ret = system("gcc .code.c -o .expr");
     if (ret != 0) continue;
 
-    ret = system("./.expr");
+    ret = system("./.expr; clear");
     if (ret != 0) continue;
 
     fp = popen("./.expr", "r");
