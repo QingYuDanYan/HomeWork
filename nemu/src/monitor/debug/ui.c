@@ -41,6 +41,7 @@ static int cmd_si(char *args);
 static int cmd_info(char *args);
 static int cmd_x(char *args);
 static int cmd_p(char *args);
+static int cmd_expr_test(char *args);
 
 static struct {
   char *name;
@@ -54,11 +55,48 @@ static struct {
   { "cmd", "display info SUBCMD", cmd_info },
   { "x", "print memory x N EXPR", cmd_x },
   { "p", "expr evaluate", cmd_p  },
+  { "expr_test", "expr test", cmd_expr_test  },
   /* TODO: Add more commands */
 
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
+static int cmd_expr_test(char *args) { 
+  printf("expr_test begin\n");
+  FILE *fp;
+  char *line = NULL;
+  size_t len = 0;
+  ssize_t read;
+  fp = fopen("./tools/gen-expr/expr_testcase", "r");
+  if (fp == NULL) Assert(0, "expr_testcase is NULL\n");
+
+  while ((read = getline(&line, &len, fp)) != -1) {
+    char *pos;
+    if ((pos = strchr(line, '\n')) != NULL)
+      *pos = '\0';
+    char *arg1 = strtok(line, " ");
+    char *arg2 = strtok(NULL, "");
+    bool *success = false;
+   // arg2  = readline("(nemu) ");      
+   // printf("arg1: %s arg2: %s\n", arg1, arg2);
+    uint32_t res = expr(arg2, success);
+    uint32_t ret = atoi(arg1);
+
+    if (res != ret) {
+      Assert(0, "%s mismatch\n", line);
+    }
+    else {
+      printf("expr %s = %d\n", arg2, res);
+    }
+  }
+
+  free(line);
+  fclose(fp);
+
+  return 0;
+
+}
+
 static int cmd_p(char *args) {
   char *arg = strtok(NULL, "");
   if (arg == NULL){
