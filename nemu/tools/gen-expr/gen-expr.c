@@ -70,7 +70,6 @@ static char *code_format =
 "}"
 
 "int main() { "
-"  signal(SIGFPE, sighandler);"
 "  unsigned result = %s; "
 "  printf(\"%%u\", result); "
 "  return 0;"
@@ -97,8 +96,8 @@ int main(int argc, char *argv[]) {
     int ret = system("gcc .code.c -o .expr");
     if (ret != 0) continue;
 
-    ret = system("./.expr");
-    if (ret != 0) continue;
+    //ret = system("./.expr");
+    //if (ret != 0) continue;
 
     fp = popen("./.expr", "r");
     assert(fp != NULL);
