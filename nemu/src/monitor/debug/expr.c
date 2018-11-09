@@ -121,35 +121,40 @@ static bool make_token(char *e) {
   return true;
 }
 
-int checkparentheses(int p, int q){
-  /* The expression is surrounded by a matched pair of parentheses.
-   * If that is the case, just throw away the parentheses.
-   */ 
+
+int check_bracket_balance(int p, int q) {
   int layer = 0;
-  for (int i = p; i<= q; i++) {
-    int type = tokens[i].type;
-    if (type == '('){ layer++; }
-    if (type == ')') layer--;
-  }
-  if (layer != 0) {
-    Assert(0, "this expr parentheses unequal\n");
+  for (int i = p; i <= q; i++) {
+    if (tokens[i].type == '(') layer ++;
+    if (tokens[i].type == ')') layer --;
   }
 
-  if (tokens[p].type != '(' || tokens[q].type != ')') {
+  if (layer == 0) return 0;
+  else return 1;
+}
+
+
+int checkparentheses(int p, int q) {
+  if (check_bracket_balance(p, q) != 0){
+    Assert(0, "bracket imbalance\n");
+  }
+
+  if (tokens[p].type != '(' || tokens[p].type != ')') {
     return 1;
-  }else{
-
-    layer = 0;
-    for (int i = p+1; i <= q-1; i++) {
+  }
+  else {
+    int layer = 0;
+    for (int i = p + 1; i <= q - 1; i++) {
       int type = tokens[i].type;
-      if (type == '(') layer++;
-      if (type == ')') layer--;
+      if (type == '(') layer ++;
+      if (type == ')') layer --;
       if (layer < 0) return 1;
     }
   }
 
- return 0;
+  return 0;
 }
+
 
 int op_find(int p, int q) {
   int layer = 0, rightmost = -1;
@@ -181,6 +186,8 @@ int op_find(int p, int q) {
   }
   return rightmost;  
 }
+
+
 
 int eval(int p, int q, bool *success) {
   if (p > q) {
