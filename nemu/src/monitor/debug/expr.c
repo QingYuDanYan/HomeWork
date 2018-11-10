@@ -191,8 +191,8 @@ int op_find__(int p, int q) {
 }
 
 int op_find(int p, int q) {
-  int layer = 0, op = -1;
-  
+  int layer = 0, op = -1, op_priority = -1;
+
   for (int i = p; i <= q; i++) {
     int type = tokens[i].type;
     if (type == '(') {
@@ -206,21 +206,22 @@ int op_find(int p, int q) {
     }
 
     if (layer == 0) {
+      op_priority = op == -1 ? 15 : tokens[op].priority;
       switch (type) {
-        case TK_OR_OR: if (tokens[i].priority <= tokens[op].priority) op = i; break;
-        case TK_AND_AND: if (tokens[i].priority <= tokens[op].priority) op = i; break;
-        case TK_OR: if (tokens[i].priority <= tokens[op].priority) op = i; break;
-        case TK_AND: if (tokens[i].priority <= tokens[op].priority) op = i; break;
-        case TK_EQ: if (tokens[i].priority <= tokens[op].priority) op = i; break;
-        case TK_NE: if (tokens[i].priority <= tokens[op].priority) op = i; break;
-        case TK_GE: if (tokens[i].priority <= tokens[op].priority) op = i; break;
-        case '>': if (tokens[i].priority <= tokens[op].priority) op = i; break;
-        case TK_LE: if (tokens[i].priority <= tokens[op].priority) op = i; break;
-        case '<': if (tokens[i].priority <= tokens[op].priority) op = i; break;
-        case '+': break; if (tokens[i].priority <= tokens[op].priority) op = i; break;
-        case '-': break; if (tokens[i].priority <= tokens[op].priority) op = i; break;
-        case '*': break; if (tokens[i].priority <= tokens[op].priority) op = i; break;
-        case '/': break; if (tokens[i].priority <= tokens[op].priority) op = i; break;
+        case TK_OR_OR: if (tokens[i].priority >= op_priority) op = i; break;
+        case TK_AND_AND: if (tokens[i].priority >= op_priority) op = i; break;
+        case TK_OR: if (tokens[i].priority >= op_priority) op = i; break;
+        case TK_AND: if (tokens[i].priority >= op_priority) op = i; break;
+        case TK_EQ: if (tokens[i].priority >= op_priority) op = i; break;
+        case TK_NE: if (tokens[i].priority >= op_priority) op = i; break;
+        case TK_GE: if (tokens[i].priority >= op_priority) op = i; break;
+        case '>': if (tokens[i].priority >= op_priority) op = i; break;
+        case TK_LE: if (tokens[i].priority >= op_priority) op = i; break;
+        case '<': if (tokens[i].priority >= op_priority) op = i; break;
+        case '+': break; if (tokens[i].priority >= op_priority) op = i; break;
+        case '-': break; if (tokens[i].priority >= op_priority) op = i; break;
+        case '*': break; if (tokens[i].priority >= op_priority) op = i; break;
+        case '/': break; if (tokens[i].priority >= op_priority) op = i; break;
       }
     }
 
