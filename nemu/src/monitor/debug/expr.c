@@ -17,32 +17,33 @@ enum {
 static struct rule {
   char *regex;
   int token_type;
+  int priority;
 } rules[] = {
 
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
-  {" +", TK_NOTYPE},    // spaces
-  {"0x[a-f|A-F|0-9]+", TK_HEX},  // hex
-  {"\\$[a-z|A-Z]+", TK_REG},  //reg
-  {"[a-z|A-Z|_]+[a-z|A-Z|_|0-9]+", TK_VAR},
-  {"\\(", '('},         // left bracket
-  {")", ')'},           // right bracket
-  {"\\+", '+'},         // plus
-  {"\\*", '*'},         // multipy 
-  {"\\-", '-'},         // sub
-  {"/", '/'},           // divide
-  {"[0-9]+", TK_NO},    // number
-  {"==", TK_EQ},        // equal
-  {"<=", TK_LE},        // less equal
-  {">=", TK_GE},        // greater equal
-  {"!=", TK_NE},        // not equal
-  {"&&", TK_AND_AND},   // &&
-  {"||", TK_OR_OR},     // ||
-  {"&", '&'},        // &
-  {"|", '|'},         // |
-  {"<", '<'},           // <
-  {">", '>'}            // >
+  {" +", TK_NOTYPE, 0},    // spaces
+  {"0x[a-f|A-F|0-9]+", TK_HEX, 0},  // hex
+  {"\\$[a-z|A-Z]+", TK_REG, 0},  //reg
+  {"[a-z|A-Z|_]+[a-z|A-Z|_|0-9]+", TK_VAR, 0},
+  {"\\(", '(', 0},         // left bracket
+  {")", ')', 0},           // right bracket
+  {"[0-9]+", TK_NO, 0},    // number
+  {"\\*", '*', 3},         // multipy 
+  {"/", '/', 3},           // divide
+  {"\\-", '-', 4},         // sub
+  {"\\+", '+', 4},         // plus
+  {"<=", TK_LE, 6},        // less equal
+  {">=", TK_GE, 6},        // greater equal
+  {"<", '<', 6},           // <
+  {">", '>', 6},           // >
+  {"!=", TK_NE, 7},        // not equal
+  {"==", TK_EQ, 7},        // equal
+  {"||", TK_OR_OR, 12},    // ||
+  {"&", '&', 8},           // &
+  {"|", '|', 10},          // |
+  {"&&", TK_AND_AND, 11}   // &&
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -69,6 +70,7 @@ void init_regex() {
 typedef struct token {
   int type;
   char str[32];
+  int priority;
 } Token;
 
 Token tokens[65536];
@@ -106,6 +108,7 @@ static bool make_token(char *e) {
             tokens[nr_token].type = rules[i].token_type;
             strncpy(tokens[nr_token].str, substr_start, substr_len);
             tokens[nr_token].str[substr_len] = '\0';
+            tokens[nr_token].priority = rules[i].priority;
             ++nr_token;
         }
         break; 
@@ -156,7 +159,7 @@ int checkparentheses(int p, int q) {
 }
 
 
-int op_find(int p, int q) {
+int op_find__(int p, int q) {
   int layer = 0, rightmost = -1;
   bool add_sub_exist = false;
   for (int i = p; i <= q; i++) {
@@ -187,7 +190,44 @@ int op_find(int p, int q) {
   return rightmost;  
 }
 
+int op_find(int p, int q) {
+  int layer = 0, op = -1;
+  
+  for (int i = p; i <= q; i++) {
+    int type = tokens[i].type;
+    if (type == '(') {
+      layer ++;
+      break;
+    }
+    
+    if (type == ')') {
+      layer --;
+      break;
+    }
 
+    if (layer == 0) {
+      switch (type) {
+        case TK_OR_OR: if (tokens[i].priority <= tokens[op].priority) op = i; break;
+        case TK_AND_AND: if (tokens[i].priority <= tokens[op].priority) op = i; break;
+        case TK_OR: if (tokens[i].priority <= tokens[op].priority) op = i; break;
+        case TK_AND: if (tokens[i].priority <= tokens[op].priority) op = i; break;
+        case TK_EQ: if (tokens[i].priority <= tokens[op].priority) op = i; break;
+        case TK_NE: if (tokens[i].priority <= tokens[op].priority) op = i; break;
+        case TK_GE: if (tokens[i].priority <= tokens[op].priority) op = i; break;
+        case '>': if (tokens[i].priority <= tokens[op].priority) op = i; break;
+        case TK_LE: if (tokens[i].priority <= tokens[op].priority) op = i; break;
+        case '<': if (tokens[i].priority <= tokens[op].priority) op = i; break;
+        case '+': break; if (tokens[i].priority <= tokens[op].priority) op = i; break;
+        case '-': break; if (tokens[i].priority <= tokens[op].priority) op = i; break;
+        case '*': break; if (tokens[i].priority <= tokens[op].priority) op = i; break;
+        case '/': break; if (tokens[i].priority <= tokens[op].priority) op = i; break;
+      }
+    }
+
+  }
+
+  return op;
+}
 
 int eval(int p, int q, bool *success) {
   if (p > q) {
