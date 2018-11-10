@@ -24,9 +24,9 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
   {" +", TK_NOTYPE, 0},    // spaces
-  {"0x[a-f|A-F|0-9]+", TK_HEX, 0},  // hex
-  {"\\$[a-z|A-Z]+", TK_REG, 0},  //reg
-  {"[a-z|A-Z|_]+[a-z|A-Z|_|0-9]+", TK_VAR, 0},
+  {"0x[a-fA-F0-9]+", TK_HEX, 0},  // hex
+  {"\\$[a-zA-Z]+", TK_REG, 0},  //reg
+  {"[a-zA-Z_]+[a-zA-Z_0-9]+", TK_VAR, 0},
   {"\\(", '(', 0},         // left bracket
   {")", ')', 0},           // right bracket
   {"[0-9]+", TK_NO, 0},    // number
