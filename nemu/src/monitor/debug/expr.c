@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NO, TK_HEX, TK_REG, TK_VAR, TK_LE, TK_GE, TK_NE, TK_AND_AND, TK_OR_OR, TK_AND, TK_OR
+  TK_NOTYPE = 256, TK_EQ, TK_NO, TK_HEX, TK_REG, TK_VAR, TK_LE, TK_GE, TK_NE, TK_AND_AND, TK_OR_OR, TK_AND
 
   /* TODO: Add more token types */
 
@@ -210,7 +210,7 @@ int op_find(int p, int q) {
       switch (type) {
         case TK_OR_OR: if (tokens[i].priority >= op_priority) op = i; break;
         case TK_AND_AND: if (tokens[i].priority >= op_priority) op = i; break;
-        case TK_OR: if (tokens[i].priority >= op_priority) op = i; break;
+        case '|': if (tokens[i].priority >= op_priority) op = i; break;
         case TK_AND: if (tokens[i].priority >= op_priority) op = i; break;
         case TK_EQ: if (tokens[i].priority >= op_priority) op = i; break;
         case TK_NE: if (tokens[i].priority >= op_priority) op = i; break;
