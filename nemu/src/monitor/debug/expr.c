@@ -222,6 +222,7 @@ int op_find(int p, int q) {
         case '-': if (tokens[i].priority >= op_priority) op = i; break;
         case '*': if (tokens[i].priority >= op_priority) op = i; break;
         case '/': if (tokens[i].priority >= op_priority) op = i; break;
+        default: Assert(0, "Unknown op type %d\n", type); break;
       }
     }
   }
