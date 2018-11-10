@@ -218,10 +218,10 @@ int op_find(int p, int q) {
         case '>': if (tokens[i].priority >= op_priority) op = i; break;
         case TK_LE: if (tokens[i].priority >= op_priority) op = i; break;
         case '<': if (tokens[i].priority >= op_priority) op = i; break;
-        case '+': break; if (tokens[i].priority >= op_priority) op = i; break;
-        case '-': break; if (tokens[i].priority >= op_priority) op = i; break;
-        case '*': break; if (tokens[i].priority >= op_priority) op = i; break;
-        case '/': break; if (tokens[i].priority >= op_priority) op = i; break;
+        case '+': if (tokens[i].priority >= op_priority) op = i; break;
+        case '-': if (tokens[i].priority >= op_priority) op = i; break;
+        case '*': if (tokens[i].priority >= op_priority) op = i; break;
+        case '/': if (tokens[i].priority >= op_priority) op = i; break;
       }
     }
   }
