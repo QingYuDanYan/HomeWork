@@ -206,7 +206,7 @@ int op_find(int p, int q) {
     }
 
     if (layer == 0) {
-      op_priority = op == -1 ? 15 : tokens[op].priority;
+      op_priority = op == -1 ? 0 : tokens[op].priority;
       switch (type) {
         case TK_OR_OR: if (tokens[i].priority >= op_priority) op = i; break;
         case TK_AND_AND: if (tokens[i].priority >= op_priority) op = i; break;
@@ -224,7 +224,6 @@ int op_find(int p, int q) {
         case '/': break; if (tokens[i].priority >= op_priority) op = i; break;
       }
     }
-
   }
 
   return op;
