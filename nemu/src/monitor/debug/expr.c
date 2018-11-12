@@ -33,7 +33,7 @@ static struct rule {
   {"[0-9]+", TK_NO, 0},    // number
   {"\\*", '*', 3},         // multipy 
   {"/", '/', 3},           // divide
-  {"\\-", '-', 5},         // sub
+  {"\\-", '-', 4},         // sub
   {"\\+", '+', 4},         // plus
   {"<=", TK_LE, 6},        // less equal
   {">=", TK_GE, 6},        // greater equal
