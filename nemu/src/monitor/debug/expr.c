@@ -41,9 +41,9 @@ static struct rule {
   {"!=", TK_NE, 7},        // not equal
   {"==", TK_EQ, 7},        // equal
   {"\\|\\|", TK_OR_OR, 12},    // ||
-  {"&", '&', 8},           // &
   {"\\|", '|', 10},          // |
-  {"&&", TK_AND_AND, 11}   // &&
+  {"&&", TK_AND_AND, 11},   // &&
+  {"&", '&', 8},           // &
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
