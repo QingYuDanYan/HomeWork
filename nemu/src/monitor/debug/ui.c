@@ -77,13 +77,11 @@ static int cmd_expr_test(char *args) {
     char *arg1 = strtok(line, " ");
     char *arg2 = strtok(NULL, "");
     bool *success = false;
-   // arg2  = readline("(nemu) ");      
-   // printf("arg1: %s arg2: %s\n", arg1, arg2);
     uint32_t res = expr(arg2, success);
     uint32_t ret = atoi(arg1);
 
     if (res != ret) {
-      Assert(0, "%s mismatch\n", line);
+      Assert(0, "%d = %s, but expr = %d \n", ret, arg2, res);
     }
     else {
       printf("expr %s = %d\n", arg2, res);
