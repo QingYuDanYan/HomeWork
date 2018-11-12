@@ -268,7 +268,7 @@ int eval(int p, int q, bool *success) {
   else {
     int op = op_find(p, q); /* the position of main op in the token expression */
     uint32_t val1, val2;
-    if ( p == op && op >= 0) {
+    if ( op == p && op >= 0) { /* unary op */ 
       val2 = eval(op + 1, q, success); 
       switch(tokens[p].type) {
         case TK_DEREF:
@@ -300,7 +300,7 @@ int eval(int p, int q, bool *success) {
       case TK_NE: return val1 != val2;
       case TK_AND_AND: return val1 && val2;
       case TK_OR_OR: return val1 || val2;
-      default: Assert(0, "unknown token type\n");
+      default: Assert(0, "unknown token type %d\n", tokens[op].type);
     }
   }
 
