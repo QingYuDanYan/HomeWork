@@ -32,7 +32,7 @@ static struct rule {
   {"[0-9]+", TK_NO, 0},    // number
   {"\\*", '*', 3},         // multipy 
   {"/", '/', 3},           // divide
-  {"\\-", '-', 4},         // sub
+  {"\\-", '-', 5},         // sub
   {"\\+", '+', 4},         // plus
   {"<=", TK_LE, 6},        // less equal
   {">=", TK_GE, 6},        // greater equal
@@ -262,7 +262,7 @@ int eval(int p, int q, bool *success) {
   else {
     int op = op_find(p, q); /* the position of main op in the token expression */
     uint32_t val1, val2;
-    if ( p == op && op > 0) {
+    if ( p == op && op >= 0) {
       val2 = eval(op + 1, q, success); 
       switch(tokens[p].type) {
         case '*':
