@@ -8,11 +8,12 @@
 #include <stdlib.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NO, TK_HEX, TK_REG, TK_VAR, TK_LE, TK_GE, TK_NE, TK_AND_AND, TK_OR_OR, TK_AND
+  TK_NOTYPE = 256, TK_EQ, TK_NO, TK_HEX, TK_REG, TK_VAR, TK_LE, TK_GE, TK_NE, TK_AND_AND, TK_OR_OR, TK_AND, TK_DEREF, TK_POS, TK_NEG
 
   /* TODO: Add more token types */
 
 };
+
 
 static struct rule {
   char *regex;
@@ -201,6 +202,7 @@ int op_find(int p, int q) {
 
     if (layer == 0) {
       op_priority = op == -1 ? 0 : tokens[op].priority;
+
       switch (type) {
         case TK_OR_OR: if (tokens[i].priority >= op_priority) op = i; break;
         case TK_AND_AND: if (tokens[i].priority >= op_priority) op = i; break;
@@ -214,10 +216,14 @@ int op_find(int p, int q) {
         case '<': if (tokens[i].priority >= op_priority) op = i; break;
         case '+': if (tokens[i].priority >= op_priority) op = i; break;
         case '-': if (tokens[i].priority >= op_priority) op = i; break;
-        case '*': if (tokens[i].priority >= op_priority) op = i; break;
+        case '*': if (tokens[i].priority >= op_priority) op = i;break;
         case '/': if (tokens[i].priority >= op_priority) op = i; break;
         case '&': if (tokens[i].priority >= op_priority) op = i; break;
-        default: break; Assert(0, "Unknown op type %d str: %s\n", type, tokens[i].str); break;
+        case TK_DEREF: if (tokens[i].priority >= op_priority) op = i; break;
+        case TK_POS: if (tokens[i].priority >= op_priority) op = i; break;
+        case TK_NEG: if (tokens[i].priority >= op_priority) op = i; break;
+            
+        default: break;
       }
     }
   }
@@ -265,11 +271,11 @@ int eval(int p, int q, bool *success) {
     if ( p == op && op >= 0) {
       val2 = eval(op + 1, q, success); 
       switch(tokens[p].type) {
-        case '*':
+        case TK_DEREF:
           return vaddr_read(val2, 4); 
-        case '+':
+        case TK_POS:
           return val2;
-        case '-':
+        case TK_NEG:
           return -val2;
         default:
           Assert(0, "Unknown Typen");
@@ -301,11 +307,51 @@ int eval(int p, int q, bool *success) {
   return 0;
 }
 
+void op_redefine() {
+  for (int i = 0; i < nr_token; i++) {
+    if (tokens[i].type == '*' && 
+        (i == 0 || (tokens[i-1].type != ')' &&
+                    tokens[i-1].type != TK_NO &&
+                    tokens[i-1].type != TK_HEX &&
+                    tokens[i-1].type != TK_VAR          
+                   )
+        )
+       ) {
+      tokens[i].type = TK_DEREF;
+      tokens[i].priority = 2;
+    }
+    if (tokens[i].type == '-' && 
+        (i == 0 || (tokens[i-1].type != ')' &&
+                    tokens[i-1].type != TK_NO &&
+                    tokens[i-1].type != TK_HEX &&
+                    tokens[i-1].type != TK_VAR          
+                   )
+        )
+       ) {
+      tokens[i].type = TK_NEG;
+      tokens[i].priority = 2;
+    }
+    if (tokens[i].type == '+' && 
+        (i == 0 || (tokens[i-1].type != ')' &&
+                    tokens[i-1].type != TK_NO &&
+                    tokens[i-1].type != TK_HEX &&
+                    tokens[i-1].type != TK_VAR          
+                   )
+        )
+       ) {
+      tokens[i].type = TK_POS;
+      tokens[i].priority = 2;
+    } 
+  }
+}
+
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
+
+  op_redefine();
 
   /* TODO: Insert codes to evaluate the expression. */
   uint32_t res = eval(0, nr_token - 1, success);
