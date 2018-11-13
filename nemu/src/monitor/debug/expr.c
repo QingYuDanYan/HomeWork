@@ -160,37 +160,6 @@ int checkparentheses(int p, int q) {
 }
 
 
-int op_find__(int p, int q) {
-  int layer = 0, rightmost = -1;
-  bool add_sub_exist = false;
-  for (int i = p; i <= q; i++) {
-    int type = tokens[i].type;
-    if (type == '(') {
-      ++layer;
-    }
-    if (type == ')'){
-      --layer;
-    }
-    if (layer == 0)  {
-      if ( (type == '*' || type == '/') && (add_sub_exist == false) ) {
-        rightmost = i;        
-      }
-      if (type == '+' || type == '-'){
-        if (i - 1 >= p){
-          int pre_type = tokens[i-1].type;
-          if (pre_type == '+' || pre_type == '-' || pre_type == '*' || pre_type == '/') {
-            continue;
-          }
-
-        }
-        rightmost = i;
-        add_sub_exist = true;
-      }
-    }
-  }
-  return rightmost;  
-}
-
 int op_find(int p, int q) {
   int layer = 0, op = -1, op_priority = -1;
 
