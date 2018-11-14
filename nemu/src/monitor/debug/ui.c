@@ -154,8 +154,8 @@ static int cmd_x(char *args) {
 
 static int cmd_info_w() {
   WP *head = get_head();
-  char *header_format = "%-*s%*s%*s\n";
-  char *format = "%-*d%*s%*s\n";
+  char *header_format = "%-*s%-*s%*s\n";
+  char *format = "%-*d%-*s%*s\n";
   printf(header_format, 10, "Num", 15, "Type", 15, "What");
   while (head != NULL) {
     printf(format, 10, head->NO, 15, "watchpoint", 15, head->expr);
