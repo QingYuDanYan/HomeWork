@@ -54,7 +54,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "single step si [N]", cmd_si },
-  { "cmd", "display info SUBCMD", cmd_info },
+  { "info", "display info SUBCMD", cmd_info },
   { "x", "print memory x N EXPR", cmd_x },
   { "p", "expr evaluate", cmd_p  },
   { "w", "watch expr", cmd_w },
