@@ -42,6 +42,8 @@ static int cmd_info(char *args);
 static int cmd_x(char *args);
 static int cmd_p(char *args);
 static int cmd_expr_test(char *args);
+static int cmd_w(char *args);
+static int cmd_d(char *args);
 
 static struct {
   char *name;
@@ -55,12 +57,36 @@ static struct {
   { "cmd", "display info SUBCMD", cmd_info },
   { "x", "print memory x N EXPR", cmd_x },
   { "p", "expr evaluate", cmd_p  },
+  { "w", "watch expr", cmd_w },
+  { "d", "delete watch point", cmd_d },
   { "expr_test", "expr test", cmd_expr_test  },
   /* TODO: Add more commands */
 
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
+static int cmd_w (char *args) {
+  char *arg = strtok(NULL, "");
+  if (arg == NULL) {
+    printf("Wrong usage, please use help command\n ");
+  }
+
+  WP* wp = new_wp();
+  strcpy(wp->expr, arg);
+  printf("Watchpoint %d: %s\n", wp->NO, wp->expr);
+
+  return 0;
+}
+
+static int cmd_d (char *args) {
+  char *arg = strtok(NULL, " ");
+  if (arg == NULL) {
+    printf("Wrong usage, please use help command\n ");
+  }
+  
+  return 0; 
+}
+
 static int cmd_expr_test(char *args) { 
   printf("expr_test begin\n");
   FILE *fp;
