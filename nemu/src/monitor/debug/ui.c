@@ -152,6 +152,16 @@ static int cmd_x(char *args) {
   return 0;
 }
 
+static int cmd_info_w() {
+  WP *head = get_head();
+  printf("Num /t  Type /t What\n");
+  while (head != NULL) {
+    printf("%d /t watchpoint /t %s\n", head->NO, head->expr);
+  }
+
+  return 0;
+}
+
 static int cmd_info(char *args) {
   char *arg = strtok(NULL, " ");
   
@@ -164,7 +174,7 @@ static int cmd_info(char *args) {
     }
   }
   else if (*arg == 'w') {
-    printf("watch point unfinished\n");
+    cmd_info_w();
   }
   else {
     printf("Unkown Command '%s'\n", arg);

@@ -78,6 +78,9 @@ void free_wp (int NO) {
     pre_node = node;
     node = node->next;
   }
+}
 
+WP* get_head() {
+  return head;
 }
 
