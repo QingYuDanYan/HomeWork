@@ -83,6 +83,8 @@ static int cmd_d (char *args) {
   if (arg == NULL) {
     printf("Wrong usage, please use help command\n ");
   }
+  int NO = atoi(arg);
+  free_wp(NO);
   
   return 0; 
 }
