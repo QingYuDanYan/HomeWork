@@ -154,9 +154,9 @@ static int cmd_x(char *args) {
 
 static int cmd_info_w() {
   WP *head = get_head();
-  printf("Num /t  Type /t What\n");
+  printf("Num \t  Type \t What\n");
   while (head != NULL) {
-    printf("%d /t watchpoint /t %s\n", head->NO, head->expr);
+    printf("%d \t watchpoint \t %s\n", head->NO, head->expr);
     head = head->next;
   }
 
