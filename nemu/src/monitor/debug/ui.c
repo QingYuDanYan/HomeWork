@@ -157,6 +157,7 @@ static int cmd_info_w() {
   printf("Num /t  Type /t What\n");
   while (head != NULL) {
     printf("%d /t watchpoint /t %s\n", head->NO, head->expr);
+    head = head->next;
   }
 
   return 0;
