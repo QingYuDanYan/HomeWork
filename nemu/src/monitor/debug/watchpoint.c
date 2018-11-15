@@ -70,8 +70,8 @@ void free_wp (int NO) {
       }
       else {
         tail_free_->next = node;
-        node = NULL;
         pre_node->next = node->next;
+        node->next = NULL;
         break;
       }
     }
