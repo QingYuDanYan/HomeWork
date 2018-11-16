@@ -67,6 +67,7 @@ void cpu_exec(uint64_t n) {
 				watch = watch->next;
 			}
 
+		break;
 
 		}
 
