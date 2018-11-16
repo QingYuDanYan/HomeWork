@@ -320,7 +320,7 @@ uint32_t expr(char *e, bool *success) {
     return 0;
   }
 
-  op_redefine();
+op_redefine();
 
   /* TODO: Insert codes to evaluate the expression. */
   uint32_t res = eval(0, nr_token - 1, success);
