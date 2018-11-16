@@ -50,7 +50,7 @@ void cpu_exec(uint64_t n) {
 			old_val = watch->Val;
 			cur_val = expr(watch->expr, &success);
 			if (old_val != cur_val){
-				old_val = cur_val;
+				watch->Val = cur_val;
 				flag = true;
 			}
 			watch = watch->next;
