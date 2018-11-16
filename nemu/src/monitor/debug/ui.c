@@ -161,9 +161,9 @@ static int cmd_info_w() {
   WP *head = get_head();
   char *header_format = "%-*s%-*s%s\n";
   char *format = "%-*d%-*s%s\n";
-  printf(header_format, 8, "No", 15, "Type", "watchpoint");
+  printf(header_format, 8, "No", 15, "watchpoint", "cur_value");
   while (head != NULL) {
-    printf(format, 8, head->NO, 15, "watchpoint", head->expr);
+    printf(format, 8, head->NO, 15, head->expr, head->Val);
     head = head->next;
   }
 
