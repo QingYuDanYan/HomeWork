@@ -29,7 +29,7 @@ char* rl_gets() {
 
 static int cmd_c(char *args) {
   cpu_exec(-1);
-  return 0;
+	return 0;
 }
 
 static int cmd_q(char *args) {
@@ -73,6 +73,9 @@ static int cmd_w (char *args) {
 
   WP* wp = new_wp();
   strcpy(wp->expr, arg);
+	bool success = true;
+	uint32_t addr = expr(arg, &success);
+	wp->Val = vaddr_read(addr, 4);
   printf("Watchpoint %d: %s\n", wp->NO, wp->expr);
 
   return 0;
@@ -158,7 +161,7 @@ static int cmd_info_w() {
   WP *head = get_head();
   char *header_format = "%-*s%-*s%s\n";
   char *format = "%-*d%-*s%s\n";
-  printf(header_format, 8, "Num", 15, "Type", "What");
+  printf(header_format, 8, "No", 15, "Type", "watchpoint");
   while (head != NULL) {
     printf(format, 8, head->NO, 15, "watchpoint", head->expr);
     head = head->next;
@@ -175,7 +178,7 @@ static int cmd_info(char *args) {
   }
   else if (*arg == 'r') {
     for (int i=0; i < 8; i ++){
-      printf("%-14s 0x%x    %d\n", reg_name(i, 4), reg_l(i), reg_l(i));
+      printf("%-14s 0x%.8x    %d\n", reg_name(i, 4), reg_l(i), reg_l(i));
     }
   }
   else if (*arg == 'w') {
