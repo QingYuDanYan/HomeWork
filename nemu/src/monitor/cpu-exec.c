@@ -48,7 +48,7 @@ void cpu_exec(uint64_t n) {
 		bool success = true;
 		while (watch != NULL){
 			old_val = watch->Val;
-			cur_val = vaddr_read(expr(watch->expr, &success),4);
+			cur_val = expr(watch->expr, &success);
 			if (old_val != cur_val){
 				old_val = cur_val;
 				flag = true;

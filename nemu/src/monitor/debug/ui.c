@@ -74,8 +74,7 @@ static int cmd_w (char *args) {
   WP* wp = new_wp();
   strcpy(wp->expr, arg);
 	bool success = true;
-	uint32_t addr = expr(arg, &success);
-	wp->Val = vaddr_read(addr, 4);
+	wp->Val = expr(arg, &success);
   printf("Watchpoint %d: %s\n", wp->NO, wp->expr);
 
   return 0;
