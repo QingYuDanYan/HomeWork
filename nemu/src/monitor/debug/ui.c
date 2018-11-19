@@ -138,20 +138,32 @@ static int cmd_p(char *args) {
 
 static int cmd_x(char *args) {
   char *arg1 = strtok(NULL, " ");
-  char *arg2 = strtok(NULL, " ");
-  char *arg3 = strtok(NULL, " ");
+  char *arg2 = args +strlen(arg1) + 1;
 
-  if (arg1 == NULL || arg3 != NULL) {
+  if (arg1 == NULL) {
     printf("Wrong Format\n");
   }
   else if (arg2 == NULL) {
-    
+		printf("Wrong format \n");    
   }
-  else {
+	else{
+		int num = atoi(arg1);
+		printf("arg2: %s \n", arg2);
+		bool suc = true;
+		vaddr_t addr = expr(arg2, &suc);
 
-  }
+		for(int i = num; i<0;) {
+			printf("%.6x: ", addr);
+			for (int k = 4 ; k>0 ; k--){
+				printf(" %.2x,", vaddr_read(addr, 1));
+				addr++;
+				i--;
+				if (i<=0) break;
+			}
+			printf("\n");
+		}
+	}
   
-  printf("%s %s %s\n", arg1, arg2, arg3);
 
   return 0;
 }
