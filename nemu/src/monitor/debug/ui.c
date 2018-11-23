@@ -152,7 +152,7 @@ static int cmd_x(char *args) {
 		bool suc = true;
 		vaddr_t addr = expr(arg2, &suc);
 
-		for(int i = num; i<0;) {
+		for(int i = num; i > 0;) {
 			printf("%.6x: ", addr);
 			for (int k = 4 ; k>0 ; k--){
 				printf(" %.2x,", vaddr_read(addr, 1));
