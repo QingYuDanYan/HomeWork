@@ -41,6 +41,7 @@ static inline make_DopHelper(SI) {
    *
    op->simm = ???
    */
+	op->simm = instr_fetch(eip, op->width);
   TODO();
 
   rtl_li(&op->val, op->simm);
@@ -85,12 +86,12 @@ static inline make_DopHelper(r) {
 /* I386 manual does not contain this abbreviation.
  * We decode everything of modR/M byte by one time.
  */
-/* Eb, Ew, Ev
- * Gb, Gv
- * Cd,
- * M
- * Rd
- * Sw
+/* Eb, Ew, Ev		//E means memory or register. b means byte. w means word. v means doble word or word.
+ * Gb, Gv				//G means global register.
+ * Cd,					//C means control reg. d means double word.
+ * M						//means Memory.
+ * Rd						//reg , double word 
+ * Sw						//segment reg, word.
  */
 static inline void decode_op_rm(vaddr_t *eip, Operand *rm, bool load_rm_val, Operand *reg, bool load_reg_val) {
   read_ModR_M(eip, rm, load_rm_val, reg, load_reg_val);

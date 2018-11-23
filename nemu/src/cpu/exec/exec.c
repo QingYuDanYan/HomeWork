@@ -15,7 +15,7 @@ typedef struct {
 
 static inline void set_width(int width) {
   if (width == 0) {
-    width = decoding.is_operand_size_16 ? 2 : 4;
+    width = decoding.is_operand_size_16 ? 2 : 4;//问号前面取值为1，则width=2，取值为0，则width=4.
   }
   decoding.src.width = decoding.dest.width = decoding.src2.width = width;
 }
@@ -177,6 +177,8 @@ opcode_entry opcode_table [512] = {
   /* 0x8c */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x90 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x94 */	EMPTY, EMPTY, EMPTY, EMPTY,
+  /* 0x98 */	EMPTY, EMPTY, EMPTY, EMPTY,
+  /* 0x9c */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xa0 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xa4 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xa8 */	EMPTY, EMPTY, EMPTY, EMPTY,
