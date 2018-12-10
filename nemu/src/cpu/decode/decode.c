@@ -30,7 +30,7 @@ static inline make_DopHelper(I) {
  * function to decode it.
  */
 /* sign immediate */
-static inline make_DopHelper(SI) {
+static inline make_DopHelper(SI) {		//参数(vaddr_t *eip, Operand *op, bool load_val)
   assert(op->width == 1 || op->width == 4);
 
   op->type = OP_TYPE_IMM;

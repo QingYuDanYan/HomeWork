@@ -6,14 +6,15 @@ make_EHelper(mov) {
 }
 
 make_EHelper(push) {
-  TODO();
-
+  //TODO();
+	rtl_push(&id_dest->val);
   print_asm_template1(push);
 }
 
 make_EHelper(pop) {
-  TODO();
-
+  //TODO();
+	rtl_pop(&id_dest->val);//将pop出来的值临时放在decode.dest->val中
+	rtl_sr(id_dest->reg, &id_dest->val, 4);//将值写入reg中。
   print_asm_template1(pop);
 }
 
