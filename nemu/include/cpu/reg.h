@@ -7,6 +7,8 @@ enum { R_EAX, R_ECX, R_EDX, R_EBX, R_ESP, R_EBP, R_ESI, R_EDI };
 enum { R_AX, R_CX, R_DX, R_BX, R_SP, R_BP, R_SI, R_DI };
 enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
 
+//enum { CF=0, }
+
 /* TODO: Re-organize the `CPU_state' structure to match the register
  * encoding scheme in i386 instruction format. For example, if we
  * access cpu.gpr[3]._16, we will get the `bx' register; if we access
@@ -26,6 +28,30 @@ typedef struct {
     };
   };
   /* Do NOT change the order of the GPRs' definitions. */
+	union{
+		bool EFLAG[32];
+		unsigned EFLAGS;
+		struct{
+			unsigned CF:1;
+			unsigned :1;
+			unsigned PF:1;
+			unsigned :1;
+			unsigned AF:1;
+			unsigned :1;
+			unsigned ZF:1;
+			unsigned SF:1;
+			unsigned TF:1;
+			unsigned IF:1;
+			unsigned DF:1;
+			unsigned OF:1;
+			unsigned IOPL:2;
+			unsigned NT:1;
+			unsigned :1;
+			unsigned RF:1;
+			unsigned VM:1;
+			unsigned :14;
+		};
+	}eflags;
 
   /* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions
    * in PA2 able to directly access these registers.
