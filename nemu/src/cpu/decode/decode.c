@@ -42,7 +42,6 @@ static inline make_DopHelper(SI) {		//参数(vaddr_t *eip, Operand *op, bool loa
    op->simm = ???
    */
 	op->simm = instr_fetch(eip, op->width);
-  TODO();
 
   rtl_li(&op->val, op->simm);
 

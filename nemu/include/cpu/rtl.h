@@ -164,7 +164,6 @@ static inline void rtl_push(const rtlreg_t* src1) {
 	cpu.esp = cpu.esp - 4;
 	rtlreg_t addr = cpu.esp;
 	interpret_rtl_sm(&addr, src1, 4);
-  TODO();
 }
 
 static inline void rtl_pop(rtlreg_t* dest) {
@@ -175,7 +174,6 @@ static inline void rtl_pop(rtlreg_t* dest) {
 	//为了省事，将取来的值直接存在dest里，没有放在src里
 	
 	cpu.esp = cpu.esp + 4;
-  TODO();
 }
 
 static inline void rtl_setrelopi(uint32_t relop, rtlreg_t *dest,
