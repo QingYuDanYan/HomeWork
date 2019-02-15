@@ -184,7 +184,12 @@ static inline void rtl_setrelopi(uint32_t relop, rtlreg_t *dest,
 
 static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- src1[width * 8 - 1]
-  TODO();
+ 	switch (width) {
+		case 4:		*dest = *src1 ; return;
+		case 1:		*dest = *src1 & 0xff; return;
+		case 2:		*dest = *src1 & 0xffff; return;
+		default:	assert(0);
+	}
 }
 
 #define make_rtl_setget_eflags(f) \
