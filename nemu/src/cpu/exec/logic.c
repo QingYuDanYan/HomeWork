@@ -8,7 +8,11 @@ make_EHelper(test) {
 }
 
 make_EHelper(and) {
-  TODO();
+  //TODO();
+	rtl_and(&t2, &id_dest->val, &id_src->val);
+	operand_write(id_dest, &t2);
+	rtl_set_CF(&t0);
+	rtl_set_OF(&t0);
 
   print_asm_template2(and);
 }
