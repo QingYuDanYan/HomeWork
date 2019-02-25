@@ -101,7 +101,7 @@ opcode_entry opcode_table [512] = {
   /* 0x68 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x6c */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x70 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0x74 */	EMPTY, EMPTY, EMPTY, EMPTY,
+  /* 0x74 */	IDEX(SI, jcc), EMPTY, EMPTY, EMPTY,//je added 
   /* 0x78 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x7c */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x80 */	IDEXW(I2E, gp1, 1), IDEX(I2E, gp1), EMPTY, IDEX(SI2E, gp1),
@@ -176,7 +176,7 @@ opcode_entry opcode_table [512] = {
   /* 0x88 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x8c */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x90 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0x94 */	IDEX(E, setcc), EMPTY, EMPTY, EMPTY,//sete added
+  /* 0x94 */	IDEX(setcc_E, setcc), EMPTY, EMPTY, EMPTY,//sete added
   /* 0x98 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x9c */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xa0 */	EMPTY, EMPTY, EMPTY, EMPTY,
